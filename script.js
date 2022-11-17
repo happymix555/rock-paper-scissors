@@ -1,4 +1,27 @@
-// console.log('Hello stranger!');
+let thisRoundInnerText = document.getElementById('roundCount').innerText;
+let thisPlayerSelectedInnerText = document.getElementById('playerChoice').innerText;
+let computerChoiceInnerText = document.getElementById('computerChoice').innerText;
+let roundCount = 0;
+let resetFlag = 0;
+let computerChoice = '';
+let buttonContainer = document.getElementById('btn-container');
+
+let resetButton = document.createElement("button");
+resetButton.setAttribute("id", "reset-btn");
+resetButton.innerHTML = "Play Again!";
+let resetButtonContainer = document.createElement('div');
+resetButtonContainer.setAttribute("id", "reset-btn-container");
+resetButtonContainer.appendChild(resetButton);
+
+let bodyContainer = document.getElementsByTagName("BODY")[0];
+
+let thisResultInnerText = document.getElementById('thisResult').innerText;
+
+let thisResult = '';
+
+let computerScore = 0;
+let playerScore = 0;
+let finalResultInnerText = document.getElementById('finalResult').innerText;
 
 function getComputerChoice() {
     const items = ['Rock', 'Paper', 'Scissors'];
@@ -67,10 +90,140 @@ function game(){
     } else {
         console.log('Let cuddle meow meow.');
     }
-
 }
-// let item = getComputerChoice();
-// console.log(item);
-// console.log(getComputerChoice());
-// console.log(playRound('scissors', 'paper'));
-game();
+
+function showThisResult(thisResult){
+    if(thisResult === 0){
+        document.getElementById('thisResult').innerText = thisResultInnerText + 'Computer Win!';
+    } else if(thisResult === 1){
+        document.getElementById('thisResult').innerText = thisResultInnerText + 'Player Win!';
+    } else {
+        document.getElementById('thisResult').innerText = thisResultInnerText + 'Draw!';
+    }
+}
+
+function countRound (){
+    console.log('counting')
+    if (resetFlag === 1){
+        roundCount = 0;
+        document.getElementById('roundCount').innerText = thisRoundInnerText;
+        document.getElementById('playerChoice').innerText = thisPlayerSelectedInnerText;
+        document.getElementById('computerChoice').innerText = computerChoiceInnerText;
+        document.getElementById('finalResult').innerText = finalResultInnerText
+        computerScore = 0;
+        playerScore = 0;
+        bodyContainer.removeChild(resetButtonContainer);
+        bodyContainer.appendChild(buttonContainer);
+        resetFlag = 0;
+        return
+    }
+    if(roundCount === 4){
+        // buttonContainer.appendChild(resetButton);
+        bodyContainer.removeChild(buttonContainer);
+        bodyContainer.appendChild(resetButtonContainer);
+        if(computerScore > playerScore){
+            document.getElementById('finalResult').innerText = finalResultInnerText + ' Computer Win!';
+        } else if(computerScore < playerScore){
+            document.getElementById('finalResult').innerText = finalResultInnerText + ' Player Win!';
+        } else {
+            document.getElementById('finalResult').innerText = finalResultInnerText + ' Draw!';
+        }
+    }
+    roundCount += 1;
+    document.getElementById('roundCount').innerText = thisRoundInnerText + ' ' + roundCount;
+    // computerChoice = getComputerChoice();
+    document.getElementById('computerChoice').innerText = computerChoiceInnerText + ' ' + computerChoice;
+    console.log(thisResult);
+    if(thisResult[1] === 0){
+        computerScore += 1;
+    } else if(thisResult[1] === 1){
+        playerScore += 1;
+    } else {
+        //pass
+    }
+    const resetBtn = document.getElementById("reset-btn");
+    try {
+        // const resetBtn = document.getElementById("reset-btn");
+        resetBtn.addEventListener('click',() => {   
+            resetFlag = 1;
+            countRound();
+        });
+    } catch (error) {
+        console.log('error');
+    }
+    
+}
+
+const rockBtn = document.getElementById("rock-btn");
+// rockBtn.addEventListener("click", rockBtnFunction, countRound);
+rockBtn.addEventListener('click',() => {   
+    rockBtnFunction();
+    countRound();
+    showThisResult(thisResult[1]);
+    // rockBtnFunction();
+});
+
+function rockBtnFunction() {
+    computerChoice = getComputerChoice();
+    // document.getElementById("demo").innerHTML = "Hello World";
+    // console.log('player select rock');
+    thisResult = playRound('rock', computerChoice);
+    // console.log(thisResult[1]);
+    // console.log(roundCount);
+    // console.log(computerChoice);
+    // playRound('rock', );
+    document.getElementById('playerChoice').innerText = thisPlayerSelectedInnerText + ' Rock';
+}
+
+
+const paperBtn = document.getElementById("paper-btn");
+// rockBtn.addEventListener("click", rockBtnFunction, countRound);
+paperBtn.addEventListener('click',() => {   
+    paperBtnFunction();
+    countRound();
+    showThisResult(thisResult[1]);
+    // rockBtnFunction();
+});
+
+function paperBtnFunction() {
+    computerChoice = getComputerChoice();
+    // document.getElementById("demo").innerHTML = "Hello World";
+    // console.log('player select rock');
+    thisResult = playRound('paper', computerChoice);
+    // console.log(thisResult[1]);
+    // console.log(roundCount);
+    // console.log(computerChoice);
+    // playRound('rock', );
+    document.getElementById('playerChoice').innerText = thisPlayerSelectedInnerText + ' Paper';
+}
+
+const scissorsBtn = document.getElementById("scissors-btn");
+// rockBtn.addEventListener("click", rockBtnFunction, countRound);
+scissorsBtn.addEventListener('click',() => {   
+    scissorsBtnFunction();
+    countRound();
+    showThisResult(thisResult[1]);
+    // rockBtnFunction();
+});
+
+function scissorsBtnFunction() {
+    computerChoice = getComputerChoice();
+    // document.getElementById("demo").innerHTML = "Hello World";
+    // console.log('player select rock');
+    thisResult = playRound('scissors', computerChoice);
+    // console.log(thisResult[1]);
+    // console.log(roundCount);
+    // console.log(computerChoice);
+    // playRound('rock', );
+    document.getElementById('playerChoice').innerText = thisPlayerSelectedInnerText + ' Scissors';
+}
+
+// const resetBtn = document.getElementById("reset-btn");
+// try {
+//     const resetBtn = document.getElementById("reset-btn");
+//     resetBtn.addEventListener('click',() => {   
+//         countRound();
+//     });
+// } catch (error) {
+//     console.log('error');
+// }
