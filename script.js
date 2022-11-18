@@ -109,10 +109,16 @@ function countRound (){
         document.getElementById('roundCount').innerText = thisRoundInnerText;
         document.getElementById('playerChoice').innerText = thisPlayerSelectedInnerText;
         document.getElementById('computerChoice').innerText = computerChoiceInnerText;
-        document.getElementById('finalResult').innerText = finalResultInnerText
+        document.getElementById('finalResult').innerText = finalResultInnerText;
+        document.getElementById('thisResult').innerText = thisResultInnerText;
         computerScore = 0;
         playerScore = 0;
-        bodyContainer.removeChild(resetButtonContainer);
+        try{
+            bodyContainer.removeChild(resetButtonContainer);
+        } catch {
+            //pass
+        }
+        // bodyContainer.removeChild(resetButtonContainer);
         bodyContainer.appendChild(buttonContainer);
         resetFlag = 0;
         return
